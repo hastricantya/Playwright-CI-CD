@@ -11,23 +11,27 @@ Built with **TypeScript** and **Playwright**.
 ### Instructions:
 
 1. **Explore the website:**
+
    - Open [https://demoqa.com/](https://demoqa.com/) in your browser
    - Navigate through different sections and features
    - Identify the most critical user flows and functionalities
 
 2. **Create your test scenarios:**
-   - Implement tests in the provided template files:
+
+   - Implement tests for "Book Store Application" in the provided template files:
      - `tests/scenario-1.spec.ts`
      - `tests/scenario-2.spec.ts`
      - `tests/scenario-3.spec.ts`
-   - Each test should cover a critical scenario from the website
+   - Each test should cover scenario:
+     - Register
+     - Login
+     - Search a book
    - Make sure your tests include:
      - Navigation to the relevant page
      - User interactions (clicks, form fills, selections, etc.)
      - Assertions to verify expected behavior
 
 3. **Test quality considerations:**
-   - Choose scenarios that test critical user paths
    - Ensure tests are reliable and maintainable
    - Use appropriate selectors and wait strategies
    - Include meaningful assertions
@@ -40,6 +44,7 @@ Built with **TypeScript** and **Playwright**.
 ## Setup Instructions
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
@@ -52,26 +57,31 @@ Built with **TypeScript** and **Playwright**.
 ## Running Tests
 
 **Run all tests:**
+
 ```bash
 npm test
 ```
 
 **Run tests in headed mode (see browser):**
+
 ```bash
 npm run test:headed
 ```
 
 **Run tests with UI mode (interactive):**
+
 ```bash
 npm run test:ui
 ```
 
 **Run tests in debug mode:**
+
 ```bash
 npm run test:debug
 ```
 
 **Run a specific test file:**
+
 ```bash
 npx playwright test tests/scenario-1.spec.ts
 ```
@@ -79,6 +89,7 @@ npx playwright test tests/scenario-1.spec.ts
 ## Test Reports
 
 After running tests, view the HTML report:
+
 ```bash
 npx playwright show-report
 ```
