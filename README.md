@@ -40,6 +40,22 @@ Built with **TypeScript** and **Playwright**.
 
 - Node.js (v16 or higher)
 - npm or yarn
+- Git
+
+## Getting Started
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/claramanik/demoqa-playwright-tests.git
+   cd demoqa-playwright-tests
+   ```
+
+   **Important:** Make sure you're in the repository directory (where `package.json` is located) before running any npm commands.
+
+2. **Verify you're in the correct directory:**
+
+   You should see files like `package.json`, `playwright.config.ts`, and a `tests/` folder. If you don't see these files, navigate to the correct directory.
 
 ## Setup Instructions
 
@@ -48,6 +64,8 @@ Built with **TypeScript** and **Playwright**.
    ```bash
    npm install
    ```
+
+   **Note:** If you get an error like "Could not read package.json", make sure you're in the repository root directory (where `package.json` is located).
 
 2. **Install Playwright browsers:**
    ```bash
