@@ -1,37 +1,41 @@
 import { test, expect } from '@playwright/test';
+import { loginToBookStore, registerTestUser } from './utils/bookstore-helpers';
 
-/**
- * TASK: Create your third critical test scenario from https://demoqa.com/
- * 
- * Instructions:
- * 1. Open https://demoqa.com/ in your browser
- * 2. Explore the website and identify a third critical user flow or feature
- * 3. Write a test that validates this critical scenario
- * 4. Make sure to include:
- *    - Navigation to the page
- *    - User interactions (clicks, fills, etc.)
- *    - Assertions to verify expected behavior
- * 
- * Example scenarios you might consider:
- * - Error handling and validation messages
- * - Multi-step workflows
- * - Data tables and lists
- * - Modal dialogs
- * - API interactions (if applicable)
- */
+test.describe('Scenario 3: Book Store - search filter behavior', () => {
+  test('should filter and clear book search results for a logged-in user', async ({
+    page,
+    request,
+  }) => {
+    const credentials = await test.step('register a new user via API', async () =>
+      registerTestUser(request, 's3')
+    );
 
-test.describe('Scenario 3: [Describe your third critical scenario here]', () => {
-  test('should [describe what this test validates]', async ({ page }) => {
-    // TODO: Navigate to the page
-    // await page.goto('/your-page-path');
-    
-    // TODO: Perform user actions
-    // await page.click('selector');
-    // await page.fill('selector', 'value');
-    
-    // TODO: Add assertions to verify expected behavior
-    // await expect(page.locator('selector')).toBeVisible();
-    // await expect(page.locator('selector')).toContainText('expected text');
+    await test.step('login with the newly created user', async () => {
+      await loginToBookStore(page, credentials);
+    });
+
+    await test.step('verify search filter narrows and restores results', async () => {
+      await page.goto('/books');
+
+      const filteredBook = 'Git Pocket Guide';
+      const otherBook = 'Learning JavaScript Design Patterns';
+
+      await page.locator('#searchBox').fill('Git');
+
+      await expect(
+        page.getByRole('link', { name: filteredBook, exact: true })
+      ).toBeVisible();
+
+      await expect(
+        page.getByRole('link', { name: otherBook, exact: true })
+      ).toHaveCount(0);
+
+      await page.locator('#searchBox').fill('');
+
+      await expect(
+        page.getByRole('link', { name: otherBook, exact: true })
+      ).toBeVisible();
+    });
   });
 });
 
