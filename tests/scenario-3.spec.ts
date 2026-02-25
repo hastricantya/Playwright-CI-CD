@@ -1,41 +1,37 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { loginToBookStore, registerTestUser } from './utils/bookstore-helpers';
+import { BookStorePage } from './pages/book-store-page';
 
-test.describe('Scenario 3: Book Store - search filter behavior', () => {
-  test('should filter and clear book search results for a logged-in user', async ({
+test.describe('Scenario 3: Register + Login + Search + Verify Book Detail', () => {
+  let bookStorePage: BookStorePage;
+
+  test.beforeEach(async ({ page }) => {
+    bookStorePage = new BookStorePage(page);
+  });
+
+  test('should register, login, search a book, open it, and assert the detail page title', async ({
     page,
     request,
   }) => {
-    const credentials = await test.step('register a new user via API', async () =>
+    const bookTitle = 'Git Pocket Guide';
+
+    const credentials = await test.step('Register a new user via API', async () =>
       registerTestUser(request, 's3')
     );
 
-    await test.step('login with the newly created user', async () => {
+    await test.step('Login with the newly created user', async () => {
       await loginToBookStore(page, credentials);
     });
 
-    await test.step('verify search filter narrows and restores results', async () => {
-      await page.goto('/books');
+    await test.step(`Search for "${bookTitle}"`, async () => {
+      await bookStorePage.gotoBooks();
+      await bookStorePage.searchForBook(bookTitle);
+      await bookStorePage.expectBookInResults(bookTitle);
+    });
 
-      const filteredBook = 'Git Pocket Guide';
-      const otherBook = 'Learning JavaScript Design Patterns';
-
-      await page.locator('#searchBox').fill('Git');
-
-      await expect(
-        page.getByRole('link', { name: filteredBook, exact: true })
-      ).toBeVisible();
-
-      await expect(
-        page.getByRole('link', { name: otherBook, exact: true })
-      ).toHaveCount(0);
-
-      await page.locator('#searchBox').fill('');
-
-      await expect(
-        page.getByRole('link', { name: otherBook, exact: true })
-      ).toBeVisible();
+    await test.step(`Click on "${bookTitle}" and assert the detail page`, async () => {
+      await bookStorePage.clickBook(bookTitle);
+      await bookStorePage.expectBookDetailTitle(bookTitle);
     });
   });
 });
-
