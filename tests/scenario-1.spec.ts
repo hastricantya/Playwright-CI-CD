@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import { loginToBookStore, registerTestUser } from './utils/bookstore-helpers';
 import { BookStorePage } from './pages/book-store-page';
 
-test.describe('Scenario 1: Book Store - happy path register, login, search', () => {
+test.describe('Scenario 1: Book Store - normal flow, register, login, search', () => {
   let bookStorePage: BookStorePage;
 
   test.beforeEach(async ({ page }) => {
@@ -13,7 +13,7 @@ test.describe('Scenario 1: Book Store - happy path register, login, search', () 
     page,
     request,
   }) => {
-    const credentials = await test.step('Register a new user via API', async () =>
+    const credentials = await test.step('Register a new user', async () =>
       registerTestUser(request, 's1')
     );
 

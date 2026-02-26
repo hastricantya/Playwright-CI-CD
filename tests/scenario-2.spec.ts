@@ -13,24 +13,24 @@ test.describe('Scenario 2: Invalid Login + Valid Login + Search', () => {
     page,
     request,
   }) => {
-    // Register a fresh user via API so we have valid credentials ready
-    const credentials = await test.step('Register a new user via API', async () =>
+    // Register a fresh user so we have valid credentials ready
+    const credentials = await test.step('Register a new user', async () =>
       registerTestUser(request, 's2')
     );
 
-    await test.step('Attempt login with wrong password and assert error message', async () => {
+    await test.step('Login with wrong password and assert error message', async () => {
       await page.goto('/login');
 
       await page.locator('#userName').fill(credentials.userName);
       await page.locator('#password').fill('WrongPassword!999');
       await page.locator('#login').click();
 
-      // demoqa shows an invalid-credentials banner with this text
+      //nvalid-credentials banner with this text
       const errorBanner = page.locator('#name');
       await expect(errorBanner).toBeVisible();
       await expect(errorBanner).toContainText('Invalid username or password!');
     });
-
+    ``
     await test.step('Login successfully with correct credentials', async () => {
       await loginToBookStore(page, credentials);
     });
@@ -41,10 +41,10 @@ test.describe('Scenario 2: Invalid Login + Valid Login + Search', () => {
       const searchTerm = 'JavaScript';
       await bookStorePage.searchForBook(searchTerm);
 
-      // The search term should surface at least one JS-related book
+      // The search term showing
       await bookStorePage.expectBookInResults(searchTerm);
 
-      // A totally unrelated book should no longer appear in the filtered list
+      // Unrelated book should not appear in the filtered list
       const unrelatedBook = 'Git Pocket Guide';
       const unrelatedLink = page.getByRole('link', { name: unrelatedBook, exact: true });
       await expect(unrelatedLink).toHaveCount(0);

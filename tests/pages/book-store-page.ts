@@ -12,7 +12,6 @@ export class BookStorePage {
   }
 
   async expectBookInResults(title: string) {
-    // Prefer the historical React Table body selector, fall back to standard tbody
     const resultsContainer = this.page.locator('.rt-tbody, tbody');
     await expect(resultsContainer).toContainText(title);
   }
